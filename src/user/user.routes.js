@@ -10,7 +10,7 @@ import {
 import {
   existeEmail,
   existeUsuarioById,
-} from "../helpers/db-validators.js";
+} from "../helpers/db-validator.js";
 
 import { validarCampos } from "../middlewares/validar-campos.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";

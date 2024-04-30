@@ -1,7 +1,7 @@
 import User from "../user/user.model.js";
 import bcryptjs from "bcryptjs";
 import { generarJWT } from "../helpers/generate-JWT.js";
-import { formatName } from "../helpers/formateName.js"
+import { formatName } from "../helpers/fortmateName.js";
 
 export const register = async (req, res) => {
   try {
