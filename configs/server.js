@@ -10,7 +10,7 @@ class Server{
     constructor(){
         this.app = express();
         this.port = process.env.PORT;
-        //this.userPath = '/gestorHotelera/v1/user'
+        this.userPath = '/gestionHotelera/v1/user';
 
         this.middlewares();
         this.conectarDB();
@@ -30,7 +30,7 @@ class Server{
     }
 
     routes(){
-        //this.app.use(this.userPath, userRoutes);
+        this.app.use(this.userPath, userRoutes);
     }
 
     listen(){
