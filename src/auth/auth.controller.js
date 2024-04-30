@@ -37,15 +37,15 @@ export const login = async (req, res) => {
 
   try {
     const user = await User.findOne({ email: email.toLowerCase() });
-
+    console.log(user)
     if(user && (await bcryptjs.compare(password, user.password))){
+      console.log(user.id)
+      console.log(user.email)
       const token = await generarJWT(user.id, user.email)
 
       res.status(200).json({
-        msg: "///Se ha LOGEADO///",
+        msg: "Login Ok!!!",
         userDetails: {
-            name: user.name,
-            lastName: user.lastName,
           token: token
         },
       });
@@ -61,8 +61,8 @@ export const login = async (req, res) => {
     if (!validPassword) {
       return res.status(400).send("wrong password");
     }
-
+   
   } catch (e) {
-    res.status(500).send("Comuniquese con el administrador");
+    res.status(500).send("Comuniquese con el administrador " + e );
   }
 };
