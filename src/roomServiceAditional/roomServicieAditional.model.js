@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-const RoomServicieAditional = mongoose.Schema({
+const RoomServicieAditionalSchema = mongoose.Schema({
 
     nameServicie: {
         type: String,
@@ -27,4 +27,4 @@ const RoomServicieAditional = mongoose.Schema({
 
 })
   
-export default mongoose.model('RoomServicieAditionalSchema', RoomServicieAditional);
+export default mongoose.model('RoomServicieAditional', RoomServicieAditionalSchema);
