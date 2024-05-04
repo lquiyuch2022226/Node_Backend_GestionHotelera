@@ -1,105 +1,69 @@
-import Reservation from './Reservation';
+import RoomService from './roomService.model.js';
 
-export const reservationPost = async (req, res) => {
+export const roomServicePost = async (req, res) => {
     const { nameService, description, price, idHotel, idUser } = req.body;
 
-    try {
-        const reservation = new Reservation({ nameService, description, price, idHotel, idUser });
-        await reservation.save();
+    const roomService = new RoomService({ nameService, description, price, idHotel, idUser });
 
-        res.status(201).json({
-            reservation
-        });
-    } catch (error) {
-        res.status(500).json({
-            msg: 'Error creating reservation',
-            error: error.message
-        });
-    }
-};
+    await roomService.save();
 
-export const reservationsGet = async (req, res) => {
-    try {
-        const reservations = await Reservation.find();
-        res.status(200).json({
-            reservations
-        });
-    } catch (error) {
-        res.status(500).json({
-            msg: 'Error getting reservations',
-            error: error.message
-        });
-    }
-};
+    res.status(200).json({
+        roomService
+    });
+}
 
-export const reservationGetById = async (req, res) => {
+export const roomServicesGet = async (req, res) => {
+    const roomServices = await RoomService.find();
+
+    res.status(200).json({
+        roomServices
+    });
+}
+
+export const roomServiceGetById = async (req, res) => {
     const { id } = req.params;
 
-    try {
-        const reservation = await Reservation.findById(id);
-        if (!reservation) {
-            res.status(404).json({
-                msg: 'Reservation not found'
-            });
-            return;
-        }
+    const roomService = await RoomService.findById(id);
 
-        res.status(200).json({
-            reservation
-        });
-    } catch (error) {
-        res.status(500).json({
-            msg: 'Error getting reservation by id',
-            error: error.message
-        });
+    if (!roomService) {
+        return res.status(404).json({ msg: 'Room service not found' });
     }
-};
 
-export const reservationPut = async (req, res) => {
+    res.status(200).json({
+        roomService
+    });
+}
+
+export const roomServicePut = async (req, res) => {
     const { id } = req.params;
     const updatedFields = req.body;
 
-    try {
-        const reservation = await Reservation.findByIdAndUpdate(id, updatedFields, { new: true });
-        if (!reservation) {
-            res.status(404).json({
-                msg: 'Reservation not found'
-            });
-            return;
-        }
+    const roomService = await RoomService.findById(id);
 
-        res.status(200).json({
-            msg: 'Reservation updated successfully',
-            reservation
-        });
-    } catch (error) {
-        res.status(500).json({
-            msg: 'Error updating reservation',
-            error: error.message
-        });
+    if (!roomService) {
+        return res.status(404).json({ msg: 'Room service not found' });
     }
-};
 
-export const reservationDelete = async (req, res) => {
+    const updatedRoomService = await RoomService.findByIdAndUpdate(id, updatedFields, { new: true });
+
+    res.status(200).json({
+        msg: 'Room service updated successfully',
+        updatedRoomService
+    });
+}
+
+export const roomServiceDelete = async (req, res) => {
     const { id } = req.params;
 
-    try {
-        const reservation = await Reservation.findByIdAndDelete(id);
-        if (!reservation) {
-            res.status(404).json({
-                msg: 'Reservation not found'
-            });
-            return;
-        }
+    const roomService = await RoomService.findById(id);
 
-        res.status(200).json({
-            msg: 'Reservation deleted successfully',
-            reservation
-        });
-    } catch (error) {
-        res.status(500).json({
-            msg: 'Error deleting reservation',
-            error: error.message
-        });
+    if (!roomService) {
+        return res.status(404).json({ msg: 'Room service not found' });
     }
-};
+
+    await RoomService.findByIdAndDelete(id);
+
+    res.status(200).json({
+        msg: 'Room service deleted successfully'
+    });
+}

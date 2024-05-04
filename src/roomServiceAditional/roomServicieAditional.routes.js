@@ -2,15 +2,14 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 import { validarCampos } from '../middlewares/validar-campos.js';
 import { validarJWT } from '../middlewares/validar-jwt.js';
-import { existHotelById, existeUsuarioById } from '../helpers/db-validators.js';
 
 import {
-    reservationPost,
-    reservationsGet,
-    reservationPut,
-    reservationDelete,
-    reservationGetById
-} from '../reservation/reservation.controller.js';
+    roomServicePost,
+    roomServicesGet,
+    roomServiceGetById,
+    roomServicePut,
+    roomServiceDelete
+} from '../roomService/roomService.controller.js';
 
 const router = Router();
 
@@ -24,17 +23,17 @@ router.post(
         check('idHotel', 'The Id Hotel of the service is required').not().isEmpty(),
         check('idUser', 'The idUser of the service is required').not().isEmpty(),
         validarCampos
-    ], reservationPost
+    ], roomServicePost
 );
 
-router.get("/", validarJWT, reservationsGet);
+router.get("/", roomServicesGet);
 
 router.get(
     "/:id",
     [
         validarJWT,
     ],
-    reservationGetById
+    roomServiceGetById
 );
 
 router.put(
@@ -42,7 +41,7 @@ router.put(
     [
         validarJWT,
         validarCampos
-    ], reservationPut
+    ], roomServicePut
 );
 
 router.delete(
@@ -50,7 +49,7 @@ router.delete(
     [
         validarJWT,
         validarCampos
-    ], reservationDelete
+    ], roomServiceDelete
 );
 
 export default router;
