@@ -8,6 +8,7 @@ import userRoutes from '../src/user/user.routes.js';
 import authRoutes from '../src/auth/auth.routes.js';
 import roomRoutes from '../src/room/room.routes.js';
 import comfortRoutes from '../src/comfort/comfort.routes.js';
+import opinionRoutes from '../src/opinion/opinion.routes.js';
 import eventReservationRoutes from '../src/eventReservation/eventReservation.routes.js';
 import roomServiceAditionalRoutes from '../src/roomServiceAditional/roomServicieAditional.routes.js';
 import { dbConnection } from './mongo.js';
@@ -20,6 +21,7 @@ class Server{
         this.userPath = '/gestionHotelera/v1/user';
         this.roomPath = '/gestionHotelera/v1/room';
         this.comfortPath = '/gestionHotelera/v1/comfort';
+        this.opinionPath = '/gestionHotelera/v1/opinion';
         this.eventReservationPath = '/gestionHotelera/v1/eventReservation';
         this.roomServiceAditionalPath = '/gestionHotelera/v1/roomServiceAditional';
 
@@ -45,6 +47,7 @@ class Server{
         this.app.use(this.authPath, authRoutes);
         this.app.use(this.roomPath, roomRoutes);
         this.app.use(this.comfortPath, comfortRoutes);
+        this.app.use(this.opinionPath, opinionRoutes);
         this.app.use(this.eventReservationPath, eventReservationRoutes);
         this.app.use(this.roomServiceAditionalPath, roomServiceAditionalRoutes)
     }
