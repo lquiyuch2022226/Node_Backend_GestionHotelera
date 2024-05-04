@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import userRoutes from '../src/user/user.routes.js';
 import authRoutes from '../src/auth/auth.routes.js';
 import roomRoutes from '../src/room/room.routes.js';
+import eventReservationRoutes from '../src/eventReservation/eventReservation.routes.js';
 import { dbConnection } from './mongo.js';
 
 class Server{
@@ -16,6 +17,7 @@ class Server{
         this.authPath = '/gestionHotelera/v1/auth';
         this.userPath = '/gestionHotelera/v1/user';
         this.roomPath = '/gestionHotelera/v1/room';
+        this.eventReservationPath = '/gestionHotelera/v1/eventReservation';
 
         this.middlewares();
         this.conectarDB();
@@ -38,6 +40,7 @@ class Server{
         this.app.use(this.userPath, userRoutes);
         this.app.use(this.authPath, authRoutes);
         this.app.use(this.roomPath, roomRoutes);
+        this.app.use(this.eventReservationPath, eventReservationRoutes);
     }
 
     listen(){
