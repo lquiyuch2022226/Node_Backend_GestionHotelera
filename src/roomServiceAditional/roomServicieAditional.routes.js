@@ -9,7 +9,7 @@ import {
     roomServiceGetById,
     roomServicePut,
     roomServiceDelete
-} from '../roomService/roomService.controller.js';
+} from '../roomServiceAditional/roomServiceAditional.controller.js';
 
 const router = Router();
 

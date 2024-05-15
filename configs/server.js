@@ -11,12 +11,14 @@ import comfortRoutes from '../src/comfort/comfort.routes.js';
 import opinionRoutes from '../src/opinion/opinion.routes.js';
 import eventReservationRoutes from '../src/eventReservation/eventReservation.routes.js';
 import roomServiceAditionalRoutes from '../src/roomServiceAditional/roomServicieAditional.routes.js';
+import hotelRoutes from "../src/hotel/hotel.routes.js";
 import { dbConnection } from './mongo.js';
 
 class Server{
     constructor(){
         this.app = express();
         this.port = process.env.PORT;
+        this.hotelPath = '/gestionHotelera/v1/hotel';
         this.authPath = '/gestionHotelera/v1/auth';
         this.userPath = '/gestionHotelera/v1/user';
         this.roomPath = '/gestionHotelera/v1/room';
@@ -43,6 +45,7 @@ class Server{
     }
 
     routes(){
+        this.app.use(this.hotelPath, hotelRoutes);
         this.app.use(this.userPath, userRoutes);
         this.app.use(this.authPath, authRoutes);
         this.app.use(this.roomPath, roomRoutes);

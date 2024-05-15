@@ -1,4 +1,4 @@
-import RoomServicieAditional from './roomService.model.js';
+import RoomServicieAditional from './roomServicieAditional.model.js';
 
 export const roomServicePost = async (req, res) => {
     const { nameService, description, price, idHotel, idUser } = req.body;

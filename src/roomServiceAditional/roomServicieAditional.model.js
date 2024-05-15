@@ -11,7 +11,7 @@ const RoomServicieAditionalSchema = mongoose.Schema({
         required: [true, "Enter a description"]
     },
     price: {
-        type: number,
+        type: Number,
         required: [true, "Enter a price"]
     },
     idHotel: {

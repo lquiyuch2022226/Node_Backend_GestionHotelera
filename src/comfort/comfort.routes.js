@@ -8,7 +8,7 @@ import {
     comfortGetById,
     comfortPut,
     comfortDelete
-} from '../controllers/comfort.controller.js';
+} from '../comfort/comfort.controller.js';
 
 const router = Router();
 

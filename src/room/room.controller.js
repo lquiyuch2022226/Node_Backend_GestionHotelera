@@ -1,5 +1,5 @@
 import { response, request } from "express"
-import Room from "./room.model"
+import Room from "./room.model.js"
 
 export const roomPost = async (req, res) => {
     const { type, capacity, price, availableDate, idHotel, idUser } = req.body;

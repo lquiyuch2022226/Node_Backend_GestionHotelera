@@ -6,7 +6,7 @@ const OpinionSchema = mongoose.Schema({
         required: [true, "Enter a description"]
     },
     numStars:{
-        type: number,
+        type: Number,
         required: true
     },
     idHotel:{

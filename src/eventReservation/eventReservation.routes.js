@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 import { validarCampos } from '../middlewares/validar-campos.js';
 import { validarJWT } from '../middlewares/validar-jwt.js';
-import { existEventById, existUserById } from '../helpers/db-validators.js';
+//import { existEventById, existUserById } from '../helpers/db-validators.js';
 
 import {
     eventReservationPost,
@@ -10,7 +10,7 @@ import {
     eventPut,
     eventDelete,
     eventGetByName
-} from '../eventReservation/eventReservation.controller.js';
+} from '../eventReservation/eventReservation.controller..js';
 
 const router = Router();
 
