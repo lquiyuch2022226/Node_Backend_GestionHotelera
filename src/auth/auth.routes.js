@@ -21,6 +21,8 @@ router.post('/register',
         check('email').custom(existeEmail),
         check('password','El password es obligatorio').not().isEmpty(),
         check('password','El password debe de ser mayor a 6 caracteres').isLength({min:6,}),
+        check('name','El name es obligatorio').not().isEmpty(),
+        check('lastName','El lastName es obligatorio').not().isEmpty(),
         validarCampos
     ], register)
 

@@ -2,6 +2,8 @@ import User from "../user/user.model.js"
 import Room from "../room/room.model.js"
 import Hotel from "../hotel/hotel.model.js"
 
+
+
 export const existeEmail = async (email = '') => {
     const existe = await User.findOne({email})
     if(existe){

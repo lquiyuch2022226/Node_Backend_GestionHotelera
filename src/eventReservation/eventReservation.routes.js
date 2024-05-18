@@ -15,9 +15,9 @@ import {
 const router = Router();
 
 router.post(
-    "/",
+    "/addEventR",
     [
-        validarJWT,
+        //validarJWT,
         check('nameEvent', 'The name of the event is required').not().isEmpty(),
         check('description', 'The description of the event is required').not().isEmpty(),
         check('dateEvent', 'The date of the event is required').not().isEmpty(),

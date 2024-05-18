@@ -12,6 +12,7 @@ import opinionRoutes from '../src/opinion/opinion.routes.js';
 import eventReservationRoutes from '../src/eventReservation/eventReservation.routes.js';
 import roomServiceAditionalRoutes from '../src/roomServiceAditional/roomServicieAditional.routes.js';
 import hotelRoutes from "../src/hotel/hotel.routes.js";
+import eventRoutes from '../src/eventHotel/event.routes.js';
 import { dbConnection } from './mongo.js';
 import User from '../src/user/user.model.js';
 import bcryptjs from 'bcryptjs';
@@ -28,6 +29,7 @@ class Server{
         this.opinionPath = '/hoteles/v1/opinion';
         this.eventReservationPath = '/hoteles/v1/eventReservation';
         this.roomServiceAditionalPath = '/hoteles/v1/roomServiceAditional';
+        this.eventPath = '/hoteles/v1/event';
 
         this.middlewares();
         this.conectarDB();
@@ -107,7 +109,8 @@ class Server{
         this.app.use(this.comfortPath, comfortRoutes);
         this.app.use(this.opinionPath, opinionRoutes);
         this.app.use(this.eventReservationPath, eventReservationRoutes);
-        this.app.use(this.roomServiceAditionalPath, roomServiceAditionalRoutes)
+        this.app.use(this.roomServiceAditionalPath, roomServiceAditionalRoutes);
+        this.app.use(this.eventPath, eventRoutes)
     }
 
     listen(){

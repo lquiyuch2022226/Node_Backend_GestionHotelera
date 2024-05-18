@@ -13,9 +13,9 @@ import {
 const router = Router();
 
 router.post(
-    "/",
+    "/addComfort",
     [
-        validarJWT,
+        //validarJWT,
         check('nameComfort', 'The name of the comfort is required').not().isEmpty(),
         check('idHotel', 'The Id Hotel of the comfort is required').not().isEmpty(),
         validarCampos

@@ -1,15 +1,29 @@
 import Comfort from "./comfort.model.js";
 
 export const comfortPost = async (req, res) => {
-    const { nameComfort, idHotel } = req.body;
+    try {
+        const { nameComfort, idHotel } = req.body;
 
-    const comfort = new Comfort({ nameComfort, idHotel });
+        if (!nameComfort || !idHotel) {
+            return res.status(400).json({
+                msg: 'Please provide all required fields: nameComfort, idHotel'
+            });
+        }
 
-    await comfort.save();
+        const comfort = new Comfort({ nameComfort, idHotel });
 
-    res.status(200).json({
-        comfort
-    });
+        await comfort.save();
+
+        res.status(200).json({
+            comfort
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            msg: 'An error occurred while saving the comfort',
+            error: error.message
+        });
+    }
 };
 
 export const comfortsGet = async (req, res) => {

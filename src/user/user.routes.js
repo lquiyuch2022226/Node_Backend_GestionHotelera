@@ -56,6 +56,21 @@ router.put(
     validarCampos
   ], userPut);
 
+router.post(
+  "/addUser",
+  [
+    validarJWT,
+    check('id', 'Invalid id').isMongoId(),
+    check('id').custom(existeUsuarioById),
+    check("name", "The name is required").not().isEmpty(),
+    check("lastName", "The last name is required").not().isEmpty(),
+    check("password", "The password is required").not().isEmpty(),
+    check("password", "The password needs a minimun of 6 characters").isLength({ min: 6 }),
+    check("email", "Invalid email").isEmail(),
+    check("email").custom(existeEmail),
+    validarCampos
+  ], );
+
 
 
 router.delete(

@@ -37,6 +37,8 @@ export const getUserEmail = async (req, res) => {
     })
 }
 
+
+
 export const userPut = async (req, res = response) => {
     const { id } = req.params;
     const { _id, password, role, status, ...resto } = req.body;
