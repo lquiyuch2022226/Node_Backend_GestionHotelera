@@ -33,7 +33,7 @@ router.get(
   ], getUserById);
 
 router.get(
-  "/:_email",
+  "/email/:_email",
   [
     check('_email').custom(existeUserWithThisEmail),
     validarCampos

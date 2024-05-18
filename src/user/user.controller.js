@@ -33,7 +33,7 @@ export const getUserEmail = async (req, res) => {
     const user = await User.findOne({email: _email});
     
     res.status(200).json({
-        user
+        role: user.role
     })
 }
 

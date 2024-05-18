@@ -48,14 +48,46 @@ class Server{
     }
 
     async createUser(){
-        const existeUser = await User.findOne({ name: 'PrueBA' });
+        const existeUser = await User.findOne({ email: 'admin@gmail.com' });
         
         if (!existeUser) {
-            const userCreate = {
-                email: 'prueba@gmail.com',
+
+            /*-------------------ADMINNNN------------------------ */
+            const userAdminCreate = {
+                email: 'admin@gmail.com',
                 password: '123456',
-                name: "PrueBA",
-                lastName: "XD",
+                name: "admin default name",
+                lastName: "lastname admin",
+                role: 'ADMIN_ROLE',
+            };
+
+            const saltAdmin = bcryptjs.genSaltSync();
+            userAdminCreate.password = bcryptjs.hashSync(userAdminCreate.password, saltAdmin);
+
+            const userAdmin = new User(userAdminCreate);
+            await userAdmin.save();
+
+            /* ---------------ADMIN DE HOTEL -----------------------*/
+            const userHotelCreate = {
+                email: 'hotel@gmail.com',
+                password: '123456',
+                name: "hotel default",
+                lastName: "lastname hotel default",
+                role: 'HOTEL_ROLE',
+            };
+
+            const saltHotel = bcryptjs.genSaltSync();
+            userHotelCreate.password = bcryptjs.hashSync(userHotelCreate.password, saltHotel);
+
+            const userHotel = new User(userHotelCreate);
+            await userHotel.save();
+
+            /* -------------------------USER NORMAL------------ */
+            const userCreate = {
+                email: 'user@gmail.com',
+                password: '123456',
+                name: "user default",
+                lastName: "user lastname",
                 role: 'USER_ROLE',
             };
 
