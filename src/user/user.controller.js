@@ -28,6 +28,15 @@ export const getUserById = async (req, res) => {
     })
 }
 
+export const getUserEmail = async (req, res) => {
+    const {_email} = req.params;
+    const user = await User.findOne({email: _email});
+    
+    res.status(200).json({
+        user
+    })
+}
+
 export const userPut = async (req, res = response) => {
     const { id } = req.params;
     const { _id, password, role, status, ...resto } = req.body;

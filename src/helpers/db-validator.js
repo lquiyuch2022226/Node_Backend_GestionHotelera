@@ -9,6 +9,13 @@ export const existeEmail = async (email = '') => {
     }
 }
 
+export const existeUserWithThisEmail = async (email = '') => {
+    const existe = await User.findOne({email})
+    if(!existe){
+        throw new Error(`The user with email:  ${email} do not exist in data base`)
+    }
+}
+
 export const existeUsuarioById = async (id = '') =>{
     const existeUsuario = await User.findById(id)
     if(!existeUsuario){
