@@ -1,6 +1,7 @@
-import User from "../user/user.model.js"
-import Room from "../room/room.model.js"
-import Hotel from "../hotel/hotel.model.js"
+import User from "../user/user.model.js";
+import Room from "../room/room.model.js";
+import Hotel from "../hotel/hotel.model.js";
+import Reservation from "../reservation/reservation.model.js";
 
 
 
@@ -43,6 +44,14 @@ export const existHotelById = async (id = '') =>{
 export const existeRoomById = async (id = '') =>{
     const existRoom = await Room.findById(id)
     if(!existHotel){
+        throw new Error(` el ID: ${id} no existe` )
+    }
+}
+
+
+export const existReservationById = async(id = '') => {
+    const existReservation = await Reservation.findById(id)
+    if(!existReservation){
         throw new Error(` el ID: ${id} no existe` )
     }
 }

@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 
 const RoomServicieAditionalSchema = mongoose.Schema({
 
-    nameServicie: {
+    nameService: {
         type: String,
         required: [true, "Enter a name"],
     },
