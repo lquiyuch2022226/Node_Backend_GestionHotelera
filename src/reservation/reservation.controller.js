@@ -1,6 +1,6 @@
-import { response, request } from "express"
+import { response, request } from "express";
 //import bcryptjs from "bcryptjs"
-import Reservation from './reservation.model'
+import Reservation from './/reservation.model.js';
 
 
 export const getReservations = async (req = request, res = response) => {
@@ -9,7 +9,7 @@ export const getReservations = async (req = request, res = response) => {
 
     const [total, reservations] = await Promise.all([
         Reservation.countDocuments(query),
-        Reservations.find(query)
+        Reservation.find(query)
             .skip(Number(start))
             .limit(Number(end))
     ])
@@ -22,10 +22,10 @@ export const getReservations = async (req = request, res = response) => {
 
 
 export const postReservation = async (req, res) => {
-    const { dateStart, dateFinish, idHabitacion, idUser } = req.body
-    const reservation = new Reservation(dateStart, dateFinish, idHabitacion, idUser)
+    const { dateStart, dateFinish, idHabitacion, idUser } = req.body;
+    const reservation = new Reservation({dateStart, dateFinish, idHabitacion, idUser});
 
-    await reservation.save()
+    await reservation.save();
 
     res.status(200).json({
         reservation

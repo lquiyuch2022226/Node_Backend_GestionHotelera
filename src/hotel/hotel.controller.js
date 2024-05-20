@@ -1,5 +1,5 @@
 import { response, request } from "express";
-import Hotel from "./hotel.model";
+import Hotel from "./hotel.model.js";
 
 export const gethotel = async (req, res) => {
     const {start, end} = req.query;
@@ -19,8 +19,8 @@ export const gethotel = async (req, res) => {
 
 
 export const postHotel = async (req, res) => {
-    const {nameHote, address, category, services, numStars, idUserAdmin} = req.body;
-    const hotel = new Hotel({nameHote, address, category, services, numStars, idUserAdmin});
+    const {nameHotel, address, category, services, numStars, idUserAdmin} = req.body;
+    const hotel = new Hotel({nameHotel, address, category, services, numStars, idUserAdmin});
 
     await hotel.save();
 

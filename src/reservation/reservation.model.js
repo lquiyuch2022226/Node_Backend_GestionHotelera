@@ -30,4 +30,4 @@ const ReservationSchema = mongoose.Schema({
 
 })
   
-export default mongoose.model('User', UserSchema);
+export default mongoose.model('RoomReservationSchema', ReservationSchema);

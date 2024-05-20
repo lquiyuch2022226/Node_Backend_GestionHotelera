@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import {
+<<<<<<< HEAD
   getUsers,
   postUsers,
   getUserById,
@@ -56,11 +57,83 @@ router.put(
   ],
   usuariosPut
 );
+=======
+  usuariosGet,
+  getUserById,
+  userPut,
+  userDelete,
+  getUserEmail
+} from "./user.controller.js";
+
+import {
+  existeEmail,
+  existeUsuarioById,
+} from "../helpers/db-validator.js";
+
+import { existeUserWithThisEmail } from '../helpers/db-validator.js'
+import { validarCampos } from "../middlewares/validar-campos.js";
+import { validarJWT } from "../middlewares/validar-jwt.js";
+
+
+const router = Router();
+
+router.get("/",
+  validarJWT,
+  usuariosGet);
+
+router.get(
+  "/",
+  [
+    validarJWT,
+    check('id').custom(existeUsuarioById),
+    validarCampos
+  ], getUserById);
+
+router.get(
+  "/email/:_email",
+  [
+    check('_email').custom(existeUserWithThisEmail),
+    validarCampos
+  ], getUserEmail);
+
+
+
+router.put(
+  "/put",
+  [
+    check("id", "The id is required").not().isEmpty(),
+    check('id').custom(existeUsuarioById),
+    check("name", "The name is required").not().isEmpty(),
+    check("lastName", "The last name is required").not().isEmpty(),
+    check("email", "The email is required").not().isEmpty(),
+    check("email", "Invalid email").isEmail(),
+    check("email").custom(existeEmail),
+    validarCampos
+  ], userPut);
+
+router.post(
+  "/addUser",
+  [
+    validarJWT,
+    check('id', 'Invalid id').isMongoId(),
+    check('id').custom(existeUsuarioById),
+    check("name", "The name is required").not().isEmpty(),
+    check("lastName", "The last name is required").not().isEmpty(),
+    check("password", "The password is required").not().isEmpty(),
+    check("password", "The password needs a minimun of 6 characters").isLength({ min: 6 }),
+    check("email", "Invalid email").isEmail(),
+    check("email").custom(existeEmail),
+    validarCampos
+  ], );
+
+
+>>>>>>> develop
 
 router.delete(
   "/:id",
   [
     validarJWT,
+<<<<<<< HEAD
     tieneRole("ADMIN_ROLE", "VENTAS_ROLE"),
     check("id", "No es un ID válido").isMongoId(),
     check("id").custom(existeUsuarioById),
@@ -68,5 +141,11 @@ router.delete(
   ],
   usuariosDelete
 );
+=======
+    check('id', 'Invalid Id').isMongoId(),
+    check('id').custom(existeUsuarioById),
+    validarCampos
+  ], userDelete);
+>>>>>>> develop
 
 export default router;
