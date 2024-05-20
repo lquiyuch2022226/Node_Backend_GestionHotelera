@@ -17,6 +17,7 @@ import { existeUserWithThisEmail } from '../helpers/db-validator.js'
 import { validarCampos } from "../middlewares/validar-campos.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 
+
 const router = Router();
 
 router.get("/",
@@ -24,10 +25,9 @@ router.get("/",
   usuariosGet);
 
 router.get(
-  "/:id",
+  "/",
   [
     validarJWT,
-    check('id', 'Invalid id').isMongoId(),
     check('id').custom(existeUsuarioById),
     validarCampos
   ], getUserById);
@@ -42,15 +42,13 @@ router.get(
 
 
 router.put(
-  "/:id",
+  "/put",
   [
-    validarJWT,
-    check('id', 'Invalid id').isMongoId(),
+    check("id", "The id is required").not().isEmpty(),
     check('id').custom(existeUsuarioById),
     check("name", "The name is required").not().isEmpty(),
     check("lastName", "The last name is required").not().isEmpty(),
-    check("password", "The password is required").not().isEmpty(),
-    check("password", "The password needs a minimun of 6 characters").isLength({ min: 6 }),
+    check("email", "The email is required").not().isEmpty(),
     check("email", "Invalid email").isEmail(),
     check("email").custom(existeEmail),
     validarCampos
