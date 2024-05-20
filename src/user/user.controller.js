@@ -20,7 +20,7 @@ export const usuariosGet = async (req, res = response) => {
 }
 
 export const getUserById = async (req, res) => {
-    const {id} = req.params;
+    const {id} = req.body;
     const user = await User.findOne({_id: id});
     
     res.status(200).json({
@@ -33,14 +33,16 @@ export const getUserEmail = async (req, res) => {
     const user = await User.findOne({email: _email});
     
     res.status(200).json({
-        role: user.role
+        role: user.role,
+        idUser: user._id
     })
 }
 
 
 
 export const userPut = async (req, res = response) => {
-    const { id } = req.params;
+    console.log('Datos recibidos:', req.body);
+    const { id } = req.body;
     const { _id, password, role, status, ...resto } = req.body;
 
     if (password) {
