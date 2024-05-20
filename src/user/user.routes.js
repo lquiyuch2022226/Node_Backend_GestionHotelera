@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import {
-<<<<<<< HEAD
   getUsers,
   postUsers,
   getUserById,
@@ -57,7 +56,7 @@ router.put(
   ],
   usuariosPut
 );
-=======
+
   usuariosGet,
   getUserById,
   userPut,
@@ -133,7 +132,6 @@ router.delete(
   "/:id",
   [
     validarJWT,
-<<<<<<< HEAD
     tieneRole("ADMIN_ROLE", "VENTAS_ROLE"),
     check("id", "No es un ID válido").isMongoId(),
     check("id").custom(existeUsuarioById),
@@ -141,11 +139,10 @@ router.delete(
   ],
   usuariosDelete
 );
-=======
-    check('id', 'Invalid Id').isMongoId(),
+
+check('id', 'Invalid Id').isMongoId(),
     check('id').custom(existeUsuarioById),
     validarCampos
   ], userDelete);
->>>>>>> develop
 
 export default router;

@@ -4,9 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-<<<<<<< HEAD
 import { dbConnection } from './mongo.js';
-=======
 import userRoutes from '../src/user/user.routes.js';
 import authRoutes from '../src/auth/auth.routes.js';
 import roomRoutes from '../src/room/room.routes.js';
@@ -16,19 +14,15 @@ import eventReservationRoutes from '../src/eventReservation/eventReservation.rou
 import roomServiceAditionalRoutes from '../src/roomServiceAditional/roomServicieAditional.routes.js';
 import hotelRoutes from "../src/hotel/hotel.routes.js";
 import eventRoutes from '../src/eventHotel/event.routes.js';
-import { dbConnection } from './mongo.js';
 import User from '../src/user/user.model.js';
 import ReservationRoutes from '../src/reservation/reservation.routes.js';
 import bcryptjs from 'bcryptjs';
->>>>>>> develop
 
 class Server{
     constructor(){
         this.app = express();
         this.port = process.env.PORT;
-<<<<<<< HEAD
-        //this.userPath = '/gestorHotelera/v1/user'
-=======
+
         this.hotelPath = '/hoteles/v1/hotel';
         this.authPath = '/hoteles/v1/auth';
         this.userPath = '/hoteles/v1/user';
@@ -39,15 +33,11 @@ class Server{
         this.roomServiceAditionalPath = '/hoteles/v1/roomServiceAditional';
         this.eventPath = '/hoteles/v1/event';
         this.reservationPath = '/hoteles/v1/reservation';
->>>>>>> develop
 
         this.middlewares();
         this.conectarDB();
         this.routes();
-<<<<<<< HEAD
-=======
         this.createUser();
->>>>>>> develop
     }
 
     async conectarDB(){
@@ -60,12 +50,9 @@ class Server{
         this.app.use(express.json());
         this.app.use(helmet());
         this.app.use(morgan('dev'));
-<<<<<<< HEAD
     }
 
     routes(){
-        //this.app.use(this.userPath, userRoutes);
-=======
         this.app.use((req, res, next) => {
             console.log(`${req.method} ${req.url}`);
             console.log('Body:', req.body);
@@ -136,7 +123,6 @@ class Server{
         this.app.use(this.roomServiceAditionalPath, roomServiceAditionalRoutes);
         this.app.use(this.eventPath, eventRoutes);
         this.app.use(this.reservationPath, ReservationRoutes);
->>>>>>> develop
     }
 
     listen(){
