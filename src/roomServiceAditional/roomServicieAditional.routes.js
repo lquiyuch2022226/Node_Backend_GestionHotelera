@@ -14,9 +14,9 @@ import {
 const router = Router();
 
 router.post(
-    "/",
+    "/addSA",
     [
-        validarJWT,
+        //validarJWT,
         check('nameService', 'The name of the service is required').not().isEmpty(),
         check('description', 'The description of the service is required').not().isEmpty(),
         check('price', 'The price of the service is required').not().isEmpty(),

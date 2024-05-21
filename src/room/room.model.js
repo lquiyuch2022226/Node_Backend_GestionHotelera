@@ -28,12 +28,12 @@ const roomSchema = mongoose.Schema({
     },
 
     idHotel: {
-        type: Number,
+        type: String,
         required: [true, "Need a Id Hotel"]
     },
 
     idUser: {
-        type: Number,
+        type: String,
         required: [true, "Need a idUser"]
     },
 

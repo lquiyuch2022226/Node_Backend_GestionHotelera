@@ -13,9 +13,9 @@ import {
 const router = Router();
 
 router.post(
-    "/",
+    "/addOp",
     [
-        validarJWT,
+        //validarJWT,
         check('description', 'The description of the opinion is required').not().isEmpty(),
         check('numStars', 'The number of stars is required').not().isEmpty(),
         check('idHotel', 'The Id Hotel of the opinion is required').not().isEmpty(),
@@ -24,12 +24,12 @@ router.post(
     ], opinionPost
 );
 
-router.get("/", validarJWT, opinionsGet);
+router.get("/getOp", opinionsGet);
 
 router.get(
     "/:id",
     [
-        validarJWT,
+        //validarJWT,
     ],
     opinionGetById
 );

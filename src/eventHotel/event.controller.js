@@ -1,12 +1,12 @@
 import { response, request } from "express"
 import bcryptjs from "bcryptjs"
-import Event from "./event.model"
+import Event from "./event.model.js"
 
 export const getEvents = async (req, res) => {
     const {start, end} = req.query;
     const query = {state: true};
 
-    const [total, events] = await Primise.all([
+    const [total, events] = await Promise.all([
         Event.countDocuments(query),
         Event.find(query)
         .skip(Number(start))
@@ -20,18 +20,32 @@ export const getEvents = async (req, res) => {
 }
 
 
-const postEvents = async (req, res) => {
-    const {nameEvent, description, dateEvent, idHotel, idServicio, idUser} = req.body;
 
-    const event = new Event({nameEvent, description, dateEvent, idHotel, idServicio, idUser});
+export const postEvents = async (req, res) => {
+    try {
+        const { nameEvent, description, dateEvent, idHotel, idServicio, idUser } = req.body;
 
-    await event.save();
+        if (!nameEvent || !description || !dateEvent || !idHotel || !idServicio || !idUser) {
+            return res.status(400).json({
+                msg: 'Please provide all required fields'
+            });
+        }
 
-    res.status(200).json({
-        event
-    });
+        const event = new Event({ nameEvent, description, dateEvent, idHotel, idServicio, idUser });
+
+        await event.save();
+
+        res.status(200).json({
+            event
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            msg: 'An error occurred while saving the event',
+            error: error.message
+        });
+    }
 }
-
 
 export const getEventById = async (req, res) => {
     const {id} = req.params;

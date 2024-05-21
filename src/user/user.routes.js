@@ -1,6 +1,62 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import {
+  getUsers,
+  postUsers,
+  getUserById,
+  putUser,
+  deleteUser,
+} from "./user.controller.js";
+
+import {
+  existenteEmail,
+  esRoleValido,
+  existeUsuarioById,
+} from "../helpers/db-validators.js";
+
+import { validarCampos } from "../middlewares/validar-campos.js";
+import { tieneRole } from "../middlewares/validar-roles.js";
+import { validarJWT } from "../middlewares/validar-jwt.js";
+
+const router = Router();
+
+router.get("/", getUsers);
+
+router.get(
+  "/:id",
+  [
+    check("id", "This is not a valid id").isMongoId(),
+    //check("id").custom(existeUsuarioById),
+    //validarCampos,
+  ],
+  getUserById
+);
+
+router.post(
+  "/",
+  [
+    check("nombre", "El nombre es obligatorio").not().isEmpty(),
+    check("password", "El password debe ser mayor a 6 caracteres").isLength({
+      min: 6,
+    }),
+    check("correo", "Este no es un correo válido").isEmail(),
+    //check("correo").custom(existenteEmail),
+    //check("role").custom(esRoleValido),
+    //validarCampos,
+  ],
+  postUsers
+);
+
+router.put(
+  "/:id",
+  [
+    check("id", "No es un ID válido").isMongoId(),
+    check("id").custom(existeUsuarioById),
+    validarCampos,
+  ],
+  usuariosPut
+);
+
   usuariosGet,
   getUserById,
   userPut,
@@ -17,6 +73,7 @@ import { existeUserWithThisEmail } from '../helpers/db-validator.js'
 import { validarCampos } from "../middlewares/validar-campos.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 
+
 const router = Router();
 
 router.get("/",
@@ -24,10 +81,9 @@ router.get("/",
   usuariosGet);
 
 router.get(
-  "/:id",
+  "/",
   [
     validarJWT,
-    check('id', 'Invalid id').isMongoId(),
     check('id').custom(existeUsuarioById),
     validarCampos
   ], getUserById);
@@ -42,7 +98,20 @@ router.get(
 
 
 router.put(
-  "/:id",
+  "/put",
+  [
+    check("id", "The id is required").not().isEmpty(),
+    check('id').custom(existeUsuarioById),
+    check("name", "The name is required").not().isEmpty(),
+    check("lastName", "The last name is required").not().isEmpty(),
+    check("email", "The email is required").not().isEmpty(),
+    check("email", "Invalid email").isEmail(),
+    check("email").custom(existeEmail),
+    validarCampos
+  ], userPut);
+
+router.post(
+  "/addUser",
   [
     validarJWT,
     check('id', 'Invalid id').isMongoId(),
@@ -54,15 +123,24 @@ router.put(
     check("email", "Invalid email").isEmail(),
     check("email").custom(existeEmail),
     validarCampos
-  ], userPut);
+  ], );
 
 
+>>>>>>> develop
 
 router.delete(
   "/:id",
   [
     validarJWT,
-    check('id', 'Invalid Id').isMongoId(),
+    tieneRole("ADMIN_ROLE", "VENTAS_ROLE"),
+    check("id", "No es un ID válido").isMongoId(),
+    check("id").custom(existeUsuarioById),
+    validarCampos,
+  ],
+  usuariosDelete
+);
+
+check('id', 'Invalid Id').isMongoId(),
     check('id').custom(existeUsuarioById),
     validarCampos
   ], userDelete);

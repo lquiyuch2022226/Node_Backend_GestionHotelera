@@ -15,9 +15,9 @@ import {
 const router = Router();
 
 router.post(
-    "/",
+    "/addRoom",
     [
-        validarJWT,
+        //validarJWT,
         check('type', 'The type of the room is required').not().isEmpty(),
         check('capacity', 'The capacity of the room is required').not().isEmpty(),
         check('price', 'The price of the room is required').not().isEmpty(),
@@ -29,7 +29,7 @@ router.post(
 );
 
 router.get("/",
-    validarJWT,
+    //validarJWT,
     roomsGet);
 
 router.get(

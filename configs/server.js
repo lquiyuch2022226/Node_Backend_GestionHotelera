@@ -4,6 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import { dbConnection } from './mongo.js';
 import userRoutes from '../src/user/user.routes.js';
 import authRoutes from '../src/auth/auth.routes.js';
 import roomRoutes from '../src/room/room.routes.js';
@@ -12,24 +13,26 @@ import opinionRoutes from '../src/opinion/opinion.routes.js';
 import eventReservationRoutes from '../src/eventReservation/eventReservation.routes.js';
 import roomServiceAditionalRoutes from '../src/roomServiceAditional/roomServicieAditional.routes.js';
 import hotelRoutes from "../src/hotel/hotel.routes.js";
-import { dbConnection } from './mongo.js';
+import eventRoutes from '../src/eventHotel/event.routes.js';
 import User from '../src/user/user.model.js';
+import ReservationRoutes from '../src/reservation/reservation.routes.js';
 import bcryptjs from 'bcryptjs';
 
 class Server {
     constructor() {
         this.app = express();
-        this.port = process.env.PORT || 3000; // Asignar puerto por defecto
-        this.paths = {
-            hotels: '/hoteles/v1/hotels',
-            auth: '/hoteles/v1/auth',
-            users: '/hoteles/v1/users',
-            rooms: '/hoteles/v1/rooms',
-            comforts: '/hoteles/v1/comforts',
-            opinions: '/hoteles/v1/opinions',
-            eventReservations: '/hoteles/v1/eventReservations',
-            roomServiceAditionals: '/hoteles/v1/roomServiceAditionals'
-        };
+        this.port = process.env.PORT;
+
+        this.hotelPath = '/hoteles/v1/hotel';
+        this.authPath = '/hoteles/v1/auth';
+        this.userPath = '/hoteles/v1/user';
+        this.roomPath = '/hoteles/v1/room';
+        this.comfortPath = '/hoteles/v1/comfort';
+        this.opinionPath = '/hoteles/v1/opinion';
+        this.eventReservationPath = '/hoteles/v1/eventReservation';
+        this.roomServiceAditionalPath = '/hoteles/v1/roomServiceAditional';
+        this.eventPath = '/hoteles/v1/event';
+        this.reservationPath = '/hoteles/v1/reservation';
 
         this.middlewares();
         this.conectarDB();
@@ -49,7 +52,7 @@ class Server {
         this.app.use(morgan('dev'));
     }
 
-    async createUser() {
+    async createUser(){
         const existeUser = await User.findOne({ email: 'admin@gmail.com' });
 
         if (!existeUser) {
@@ -97,15 +100,17 @@ class Server {
         }
     }
 
-    routes() {
-        this.app.use(this.paths.hotels, hotelRoutes);
-        this.app.use(this.paths.users, userRoutes);
-        this.app.use(this.paths.auth, authRoutes);
-        this.app.use(this.paths.rooms, roomRoutes);
-        this.app.use(this.paths.comforts, comfortRoutes);
-        this.app.use(this.paths.opinions, opinionRoutes);
-        this.app.use(this.paths.eventReservations, eventReservationRoutes);
-        this.app.use(this.paths.roomServiceAditionals, roomServiceAditionalRoutes);
+    routes(){
+        this.app.use(this.hotelPath, hotelRoutes);
+        this.app.use(this.userPath, userRoutes);
+        this.app.use(this.authPath, authRoutes);
+        this.app.use(this.roomPath, roomRoutes);
+        this.app.use(this.comfortPath, comfortRoutes);
+        this.app.use(this.opinionPath, opinionRoutes);
+        this.app.use(this.eventReservationPath, eventReservationRoutes);
+        this.app.use(this.roomServiceAditionalPath, roomServiceAditionalRoutes);
+        this.app.use(this.eventPath, eventRoutes);
+        this.app.use(this.reservationPath, ReservationRoutes);
     }
 
     listen() {

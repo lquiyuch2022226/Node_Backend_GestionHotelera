@@ -13,10 +13,20 @@ export const roomServicePost = async (req, res) => {
 }
 
 export const roomServicesGet = async (req, res) => {
-    const roomServices = await RoomServicieAditional.find();
+    const { limite, desde } = req.query;
+    const query = { state: true };
+
+    const [total, aditional] = await Promise.all([
+        RoomServicieAditional.countDocuments(query),
+        RoomServicieAditional.find(query)
+            .select('-state')
+            .skip(Number(desde))
+            .limit(Number(limite))
+    ]);
 
     res.status(200).json({
-        roomServices
+        total,
+        aditional
     });
 }
 
