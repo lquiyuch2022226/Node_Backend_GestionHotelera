@@ -17,10 +17,9 @@ export const gethotel = async (req, res) => {
     });
 }
 
-
 export const postHotel = async (req, res) => {
-    const {nameHotel, address, category, services, numStars, idUserAdmin} = req.body;
-    const hotel = new Hotel({nameHotel, address, category, services, numStars, idUserAdmin});
+    const {nameHotel, address, category, services, numStars, idUserAdmin, numberOfReservations,imageUrl} = req.body;
+    const hotel = new Hotel({nameHotel, address, category, services, numStars, idUserAdmin, numberOfReservations, imageUrl});
 
     await hotel.save();
 
@@ -28,6 +27,22 @@ export const postHotel = async (req, res) => {
         hotel
     });
 }
+
+export const hotelById = async (req, res) => {
+    const { id } = req.params;
+    const hotel = await Hotel.findOne({ _id: id });
+
+    if (!hotel.state) {
+        res.status(400).json({
+            msg: 'This hotel was deleted :('
+        });
+    }
+
+    res.status(200).json({
+        hotel
+    });
+}
+
 
 export const putHotel = async (req, res) => {
 

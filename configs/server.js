@@ -17,6 +17,7 @@ import { dbConnection } from './mongo.js';
 import User from '../src/user/user.model.js';
 import ReservationRoutes from '../src/reservation/reservation.routes.js';
 import bcryptjs from 'bcryptjs';
+import multer from 'multer';
 
 class Server{
     constructor(){
@@ -32,6 +33,7 @@ class Server{
         this.roomServiceAditionalPath = '/hoteles/v1/roomServiceAditional';
         this.eventPath = '/hoteles/v1/event';
         this.reservationPath = '/hoteles/v1/reservation';
+        this.upload = multer({ dest: 'uploads/'})
 
         this.middlewares();
         this.conectarDB();
@@ -49,11 +51,6 @@ class Server{
         this.app.use(express.json());
         this.app.use(helmet());
         this.app.use(morgan('dev'));
-        this.app.use((req, res, next) => {
-            console.log(`${req.method} ${req.url}`);
-            console.log('Body:', req.body);
-            next();
-        });
     }
 
     async createUser(){

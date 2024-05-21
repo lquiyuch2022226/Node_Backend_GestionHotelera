@@ -5,32 +5,34 @@ const hotelSchema = mongoose.Schema({
         type: String,
         required: [true, "Enter a name"]
     },
-
     address: {
         type: String,
         required: [true, "Enter a addresss"]
     },
-
     category: {
         type: String,
         required: [true, "Enter a category"]
     },
-
     services: {
         type: String,
         required: [true, "Enter a service"]
     },
-
     numStars: {
         type: String,
         required: [true, "Enter the numStars"]
     },
-
     idUserAdmin: {
         type: String,
         required: [true, "Enter a Id"]
     },
-
+    numberOfReservations: {
+        type: Number,
+        default: 0
+    },
+    imageUrl: {
+        type: String,
+        required: false
+    },
     state: {
         type: Boolean,
         default: true
