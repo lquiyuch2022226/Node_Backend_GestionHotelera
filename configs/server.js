@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 import express from 'express';
 import cors from 'cors';
@@ -18,8 +18,8 @@ import User from '../src/user/user.model.js';
 import ReservationRoutes from '../src/reservation/reservation.routes.js';
 import bcryptjs from 'bcryptjs';
 
-class Server{
-    constructor(){
+class Server {
+    constructor() {
         this.app = express();
         this.port = process.env.PORT;
 
@@ -40,32 +40,22 @@ class Server{
         this.createUser();
     }
 
-    async conectarDB(){
+    async conectarDB() {
         await dbConnection();
     }
 
-    middlewares(){
-        this.app.use(express.urlencoded({extended: false}));
+    middlewares() {
+        this.app.use(express.urlencoded({ extended: false }));
         this.app.use(cors());
         this.app.use(express.json());
         this.app.use(helmet());
         this.app.use(morgan('dev'));
     }
 
-    routes(){
-        this.app.use((req, res, next) => {
-            console.log(`${req.method} ${req.url}`);
-            console.log('Body:', req.body);
-            next();
-        });
-    }
-
     async createUser(){
         const existeUser = await User.findOne({ email: 'admin@gmail.com' });
-        
-        if (!existeUser) {
 
-            /*-------------------ADMINNNN------------------------ */
+        if (!existeUser) {
             const userAdminCreate = {
                 email: 'admin@gmail.com',
                 password: '123456',
@@ -80,7 +70,6 @@ class Server{
             const userAdmin = new User(userAdminCreate);
             await userAdmin.save();
 
-            /* ---------------ADMIN DE HOTEL -----------------------*/
             const userHotelCreate = {
                 email: 'hotel@gmail.com',
                 password: '123456',
@@ -95,7 +84,6 @@ class Server{
             const userHotel = new User(userHotelCreate);
             await userHotel.save();
 
-            /* -------------------------USER NORMAL------------ */
             const userCreate = {
                 email: 'user@gmail.com',
                 password: '123456',
@@ -125,9 +113,9 @@ class Server{
         this.app.use(this.reservationPath, ReservationRoutes);
     }
 
-    listen(){
-        this.app.listen(this.port, ()=>{
-            console.log('Server running on port: ', this.port);
+    listen() {
+        this.app.listen(this.port, () => {
+            console.log('Server running on port:', this.port);
         });
     }
 }
