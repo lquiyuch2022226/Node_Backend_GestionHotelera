@@ -17,6 +17,7 @@ import eventRoutes from '../src/eventHotel/event.routes.js';
 import User from '../src/user/user.model.js';
 import ReservationRoutes from '../src/reservation/reservation.routes.js';
 import bcryptjs from 'bcryptjs';
+import multer from 'multer';
 
 class Server {
     constructor() {
@@ -33,6 +34,7 @@ class Server {
         this.roomServiceAditionalPath = '/hoteles/v1/roomServiceAditional';
         this.eventPath = '/hoteles/v1/event';
         this.reservationPath = '/hoteles/v1/reservation';
+        this.upload = multer({ dest: 'uploads/'})
 
         this.middlewares();
         this.conectarDB();
