@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 import express from 'express';
 import cors from 'cors';
@@ -16,18 +16,20 @@ import { dbConnection } from './mongo.js';
 import User from '../src/user/user.model.js';
 import bcryptjs from 'bcryptjs';
 
-class Server{
-    constructor(){
+class Server {
+    constructor() {
         this.app = express();
-        this.port = process.env.PORT;
-        this.hotelPath = '/hoteles/v1/hotel';
-        this.authPath = '/hoteles/v1/auth';
-        this.userPath = '/hoteles/v1/user';
-        this.roomPath = '/hoteles/v1/room';
-        this.comfortPath = '/hoteles/v1/comfort';
-        this.opinionPath = '/hoteles/v1/opinion';
-        this.eventReservationPath = '/hoteles/v1/eventReservation';
-        this.roomServiceAditionalPath = '/hoteles/v1/roomServiceAditional';
+        this.port = process.env.PORT || 3000; // Asignar puerto por defecto
+        this.paths = {
+            hotels: '/hoteles/v1/hotels',
+            auth: '/hoteles/v1/auth',
+            users: '/hoteles/v1/users',
+            rooms: '/hoteles/v1/rooms',
+            comforts: '/hoteles/v1/comforts',
+            opinions: '/hoteles/v1/opinions',
+            eventReservations: '/hoteles/v1/eventReservations',
+            roomServiceAditionals: '/hoteles/v1/roomServiceAditionals'
+        };
 
         this.middlewares();
         this.conectarDB();
@@ -35,24 +37,22 @@ class Server{
         this.createUser();
     }
 
-    async conectarDB(){
+    async conectarDB() {
         await dbConnection();
     }
 
-    middlewares(){
-        this.app.use(express.urlencoded({extended: false}));
+    middlewares() {
+        this.app.use(express.urlencoded({ extended: false }));
         this.app.use(cors());
         this.app.use(express.json());
         this.app.use(helmet());
         this.app.use(morgan('dev'));
     }
 
-    async createUser(){
+    async createUser() {
         const existeUser = await User.findOne({ email: 'admin@gmail.com' });
-        
-        if (!existeUser) {
 
-            /*-------------------ADMINNNN------------------------ */
+        if (!existeUser) {
             const userAdminCreate = {
                 email: 'admin@gmail.com',
                 password: '123456',
@@ -67,7 +67,6 @@ class Server{
             const userAdmin = new User(userAdminCreate);
             await userAdmin.save();
 
-            /* ---------------ADMIN DE HOTEL -----------------------*/
             const userHotelCreate = {
                 email: 'hotel@gmail.com',
                 password: '123456',
@@ -82,7 +81,6 @@ class Server{
             const userHotel = new User(userHotelCreate);
             await userHotel.save();
 
-            /* -------------------------USER NORMAL------------ */
             const userCreate = {
                 email: 'user@gmail.com',
                 password: '123456',
@@ -99,20 +97,20 @@ class Server{
         }
     }
 
-    routes(){
-        this.app.use(this.hotelPath, hotelRoutes);
-        this.app.use(this.userPath, userRoutes);
-        this.app.use(this.authPath, authRoutes);
-        this.app.use(this.roomPath, roomRoutes);
-        this.app.use(this.comfortPath, comfortRoutes);
-        this.app.use(this.opinionPath, opinionRoutes);
-        this.app.use(this.eventReservationPath, eventReservationRoutes);
-        this.app.use(this.roomServiceAditionalPath, roomServiceAditionalRoutes)
+    routes() {
+        this.app.use(this.paths.hotels, hotelRoutes);
+        this.app.use(this.paths.users, userRoutes);
+        this.app.use(this.paths.auth, authRoutes);
+        this.app.use(this.paths.rooms, roomRoutes);
+        this.app.use(this.paths.comforts, comfortRoutes);
+        this.app.use(this.paths.opinions, opinionRoutes);
+        this.app.use(this.paths.eventReservations, eventReservationRoutes);
+        this.app.use(this.paths.roomServiceAditionals, roomServiceAditionalRoutes);
     }
 
-    listen(){
-        this.app.listen(this.port, ()=>{
-            console.log('Server running on port: ', this.port);
+    listen() {
+        this.app.listen(this.port, () => {
+            console.log('Server running on port:', this.port);
         });
     }
 }
