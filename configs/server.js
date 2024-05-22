@@ -9,7 +9,6 @@ import userRoutes from '../src/user/user.routes.js';
 import authRoutes from '../src/auth/auth.routes.js';
 import roomRoutes from '../src/room/room.routes.js';
 import comfortRoutes from '../src/comfort/comfort.routes.js';
-import opinionRoutes from '../src/opinion/opinion.routes.js';
 import eventReservationRoutes from '../src/eventReservation/eventReservation.routes.js';
 import roomServiceAditionalRoutes from '../src/roomServiceAditional/roomServicieAditional.routes.js';
 import hotelRoutes from "../src/hotel/hotel.routes.js";
@@ -29,7 +28,6 @@ class Server {
         this.userPath = '/hoteles/v1/user';
         this.roomPath = '/hoteles/v1/room';
         this.comfortPath = '/hoteles/v1/comfort';
-        this.opinionPath = '/hoteles/v1/opinion';
         this.eventReservationPath = '/hoteles/v1/eventReservation';
         this.roomServiceAditionalPath = '/hoteles/v1/roomServiceAditional';
         this.eventPath = '/hoteles/v1/event';
@@ -108,7 +106,6 @@ class Server {
         this.app.use(this.authPath, authRoutes);
         this.app.use(this.roomPath, roomRoutes);
         this.app.use(this.comfortPath, comfortRoutes);
-        this.app.use(this.opinionPath, opinionRoutes);
         this.app.use(this.eventReservationPath, eventReservationRoutes);
         this.app.use(this.roomServiceAditionalPath, roomServiceAditionalRoutes);
         this.app.use(this.eventPath, eventRoutes);

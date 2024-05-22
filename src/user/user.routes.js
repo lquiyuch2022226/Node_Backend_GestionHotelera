@@ -35,7 +35,7 @@ router.get(
 );
 
 router.get(
-  "/user/:correo",
+  "/email/:correo",
   [
     //check("email", "Enter a email").not().isEmpty(),
     //check("email").custom(existingEmail),
