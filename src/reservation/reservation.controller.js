@@ -1,6 +1,7 @@
 import { response, request } from "express";
 //import bcryptjs from "bcryptjs"
 import Reservation from './/reservation.model.js';
+import Room from "../room/room.model.js"
 
 
 export const getReservations = async (req = request, res = response) => {
@@ -24,6 +25,18 @@ export const getReservations = async (req = request, res = response) => {
 export const postReservation = async (req, res) => {
     const { dateStart, dateFinish, idHabitacion, idUser } = req.body;
     const reservation = new Reservation({dateStart, dateFinish, idHabitacion, idUser});
+
+    const room = await Room.findOne({_id: idHabitacion})
+
+    if(!room){
+        res.status(404).json({
+            msg: "Did not find"
+        })
+    }
+
+    const _idHab = room.available = false;
+
+    await room.save();
 
     await reservation.save();
 

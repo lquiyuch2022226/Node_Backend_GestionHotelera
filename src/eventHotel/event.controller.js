@@ -84,3 +84,23 @@ export const deleteEvent = async (req, res) => {
         deleteEvent
     });
 }
+
+
+export const eventsGetOnlyHotel = async (req, res) => {
+    const { limite, desde } = req.query;
+    const { idHotel } = req.params;
+    const query = { state: true, idHotel: idHotel };
+
+    const [total, events] = await Promise.all([
+        Event.countDocuments(query),
+        Event.find(query)
+            .select('-state')
+            .skip(Number(desde))
+            .limit(Number(limite))
+    ]);
+
+    res.status(200).json({
+        total,
+        events
+    });
+}

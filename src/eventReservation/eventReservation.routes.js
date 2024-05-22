@@ -18,9 +18,6 @@ router.post(
     "/addEventR",
     [
         //validarJWT,
-        check('nameEvent', 'The name of the event is required').not().isEmpty(),
-        check('description', 'The description of the event is required').not().isEmpty(),
-        check('dateEvent', 'The date of the event is required').not().isEmpty(),
         check('idEvent', 'The Id Event of the event is required').not().isEmpty(),
         check('idUser', 'The idUser of the event is required').not().isEmpty(),
         validarCampos

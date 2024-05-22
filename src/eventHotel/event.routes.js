@@ -7,7 +7,8 @@ import {
     getEvents,
     putEvent,
     postEvents,
-    deleteEvent
+    deleteEvent,
+    eventsGetOnlyHotel
 } from './event.controller.js';
 
 const router = Router();
@@ -28,6 +29,11 @@ router.post(
 );
 
 router.get("/", getEvents);
+
+
+router.get("/getByHotel/:idHotel",
+    //validarJWT,
+    eventsGetOnlyHotel);    
 
 router.get("/:id", validarJWT, getEventById);
 
