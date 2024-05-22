@@ -22,6 +22,10 @@ const UserSchema = mongoose.Schema({
         type: String,
         default: 'USER_ROLE'
     },
+    idHotel:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Hotel',
+    },
     status:{
         type: Boolean,
         default: true
