@@ -16,6 +16,7 @@ import {
 
 const router = Router();
 
+
 router.get("/hotel", getHotel);
 
 router.post(
@@ -25,7 +26,7 @@ router.post(
         check("category", "This is not a valid category").not().isEmpty(),
         check("services", "This is not a valid services").not().isEmpty(),
         check("numStars", "This is not a valid numStars").not().isEmpty(),
-        check("idUserAdmin", "This is not a valid idUserAdmin").not().isEmpty(),
+        check("imageUrl", "This is not a valid image").not().isEmpty(),
         validarCampos,
     ],
     postHotel
@@ -38,37 +39,12 @@ router.put(
         check("category", "This is not a valid category").not().isEmpty(),
         check("services", "This is not a valid services").not().isEmpty(),
         check("numStars", "This is not a valid numStars").not().isEmpty(),
-        check("idUserAdmin", "This is not a valid idUserAdmin").not().isEmpty(),
+        check("imageUrl", "This is not a image").not().isEmpty(),
         validarCampos,
     ],
     putHotel
 );
 
-router.delete('/deleteHotel/:hotelId', async(req, res) => {
-    try {
-        const hotelId = req.params.hotelId;
-        const hotel = await Hotel.findByIdAndUpdate(hotelId, {
-            state: false
-        }, {
-            new: true
-        });
-
-        if (!hotel) {
-            return res.status(404).json({
-                error: 'Hotel not found',
-            });
-        }
-
-        res.status(200).json({
-            message: 'Hotel successfully removed',
-            hotel,
-        });
-    } catch (error) {
-        console.error('Error when deleting hotel:', error);
-        res.status(500).json({
-            error: 'Internal server error',
-        });
-    }
-});
+router.delete('/deleteHotel/:hotelId', deleteHotel);
 
 export default router;

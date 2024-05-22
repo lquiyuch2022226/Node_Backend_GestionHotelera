@@ -1,4 +1,4 @@
-import mongoose, {Schema} from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 const UserSchema = mongoose.Schema({
     email: {
@@ -6,30 +6,30 @@ const UserSchema = mongoose.Schema({
         unique: true,
         require: true
     },
-    password:{
+    password: {
         type: String,
         require: true
     },
-    name:{
+    name: {
         type: String,
         require: true
     },
-    lastName:{
+    lastName: {
         type: String,
         require: true
     },
-    role:{
+    role: {
         type: String,
         default: 'USER_ROLE'
     },
-    status:{
+    status: {
         type: Boolean,
         default: true
     }
 })
 
-UserSchema.methods.toJSON = function(){
-    const { __v, password, _id, ...usuario} = this.toObject();
+UserSchema.methods.toJSON = function() {
+    const { __v, password, _id, ...usuario } = this.toObject();
     usuario.uid = _id;
     return usuario;
 }

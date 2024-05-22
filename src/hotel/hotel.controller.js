@@ -38,19 +38,22 @@ export const postHotel = async(req, res) => {
         category,
         services,
         numStars,
-        idUserAdmin
+        imageUrl
     } = req.body;
-    const hotel = new Hotel({
-        nameHotel,
-        address,
-        category,
-        services,
-        numStars,
-        idUserAdmin
-    });
 
     try {
+        const hotel = new Hotel({
+            nameHotel,
+            address,
+            category,
+            services,
+            numStars,
+            imageUrl,
+            numberOfReservations: await Hotel.countDocuments()
+        });
+
         await hotel.save();
+
         res.status(201).json({
             hotel
         });
@@ -62,6 +65,7 @@ export const postHotel = async(req, res) => {
     }
 };
 
+
 export const putHotel = async(req, res) => {
     const {
         hotelId
@@ -72,7 +76,7 @@ export const putHotel = async(req, res) => {
         category,
         services,
         numStars,
-        idUserAdmin
+        imageUrl
     } = req.body;
     try {
         const hotel = await Hotel.findByIdAndUpdate(hotelId, {
@@ -81,7 +85,7 @@ export const putHotel = async(req, res) => {
             category,
             services,
             numStars,
-            idUserAdmin
+            imageUrl
         }, {
             new: true
         });
@@ -103,22 +107,23 @@ export const putHotel = async(req, res) => {
 };
 
 export const deleteHotel = async(req, res) => {
-    const {
-        hotelId
-    } = req.params;
+    const { hotelId } = req.params;
 
     try {
-        const hotel = await Hotel.findByIdAndUpdate(hotelId, {
-            state: false
-        });
+        const hotel = await Hotel.findByIdAndDelete(hotelId);
+        if (!hotel) {
+            return res.status(404).json({
+                error: 'Hotel no encontrado',
+            });
+        }
         res.status(200).json({
-            msg: 'Hotel successfully removed',
-            hotel
+            message: 'Hotel eliminado exitosamente',
+            hotel,
         });
     } catch (error) {
-        console.error('Error al eliminar el hotel:', error);
+        console.error('Error al eliminar hotel:', error);
         res.status(500).json({
-            error: 'Internal server error'
+            error: 'Error interno del servidor',
         });
     }
 };

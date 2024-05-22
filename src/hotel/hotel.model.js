@@ -26,9 +26,14 @@ const hotelSchema = mongoose.Schema({
         required: [true, "Enter the numStars"]
     },
 
-    idUserAdmin: {
+    numberOfReservations: {
+        type: Number,
+        default: 0
+    },
+
+    imageUrl: {
         type: String,
-        required: [true, "Enter a Id"]
+        required: [true, "Enter the img"]
     },
 
     state: {
