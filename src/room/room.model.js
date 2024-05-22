@@ -31,12 +31,6 @@ const roomSchema = mongoose.Schema({
         type: String,
         required: [true, "Need a Id Hotel"]
     },
-
-    idUser: {
-        type: String,
-        required: [true, "Need a idUser"]
-    },
-
     state: {
         type: Boolean,
         default: true

@@ -9,7 +9,8 @@ import {
     roomsGet,
     roomPut,
     roomDelete,
-    roomGetById
+    roomGetById,
+    roomsGetOnlyHotel
 } from '../room/room.controller.js';
 
 const router = Router();
@@ -23,7 +24,6 @@ router.post(
         check('price', 'The price of the room is required').not().isEmpty(),
         check('availableDate', 'The available date of the room is required').not().isEmpty(),
         check('idHotel', 'The Id Hotel of the room is required').not().isEmpty(),
-        check('idUser', 'The idUser of the room is required').not().isEmpty(),
         validarCampos
     ], roomPost
 );
@@ -31,6 +31,10 @@ router.post(
 router.get("/",
     //validarJWT,
     roomsGet);
+
+router.get("/getByHotel/:idHotel",
+    //validarJWT,
+    roomsGetOnlyHotel);
 
 router.get(
     "/:id",

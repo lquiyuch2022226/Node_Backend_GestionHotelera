@@ -1,28 +1,20 @@
-import { Router } from "express";
 import { check } from "express-validator";
 import multer from "multer";
-import {
-    Router
-} from "express";
-import {
-    check
-} from "express-validator";
+import { Router } from "express";
 import {
     getHotel,
     postHotel,
     putHotel,
     hotelById,
-   deleteHotel
+    deleteHotel
 } from "./hotel.controller.js";
 import { validarCampos } from "../middlewares/validar-campos.js";
 
 const upload = multer({ dest: 'uploads/' });
 
-const router = Router()
+const router = Router();
 
-
-
-router.get("/", gethotel)
+router.get("/", getHotel);
 
 router.get(
     '/one/:id',
@@ -30,7 +22,8 @@ router.get(
         check('id', 'This is not a valid id').isMongoId(),
         validarCampos
     ],
-    hotelById);
+    hotelById
+);
 
 router.post(
     "/addHotel",
@@ -61,30 +54,9 @@ router.put(
     putHotel
 );
 
-router.delete('/deleteHotel/:hotelId', async(req, res) => {
-    try {
-        const hotelId = req.params.hotelId;
-        const hotel = await Hotel.findByIdAndUpdate(hotelId, {
-            state: false
-        }, {
-            new: true
-        });
-
-        if (!hotel) {
-            return res.status(404).json({
-                error: 'Hotel not found',
-            });
-        }
-        res.status(200).json({
-            message: 'Hotel successfully removed',
-            hotel,
-        });
-    } catch (error) {
-        console.error('Error when deleting hotel:', error);
-        res.status(500).json({
-            error: 'Internal server error',
-        });
-    }
-});
+router.delete('/deleteHotel/:hotelId', [
+    check('hotelId', 'This is not a valid id').isMongoId(),
+    validarCampos
+], deleteHotel);
 
 export default router;

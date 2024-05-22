@@ -1,140 +1,133 @@
-import { response, request } from "express"
-import bcryptjs from "bcryptjs"
-import User from "./user.model.js"
+import { response, request } from "express";
+import bcryptjs from "bcryptjs";
+import User from "./user.model.js";
 
-<<<<<<< HEAD
+// Obtener usuarios con paginación
 export const getUsers = async (req = request, res = response) => {
+    const { start, end } = req.query;
+    const query = { estado: true };
 
-    const {star, end} = req.query
-    const query = {estado: true}
+    try {
+        const [total, users] = await Promise.all([
+            User.countDocuments(query),
+            User.find(query)
+                .skip(Number(start))
+                .limit(Number(end))
+        ]);
 
-    const [total, users] = await Promise.all([
-        User.countDocuments(query),
-        User.find(query)
-        .skip(Number(star))
-        .limit(Number(end))
-    ])
+        res.status(200).json({
+            total,
+            users
+        });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).json({
+            error: 'Internal server error'
+        });
+    }
+};
 
-    res.status(200).json({
-        total,
-        users
-    })
+// Crear un nuevo usuario
+export const postUsers = async (req, res) => {
+    const { email, userName, lastName, password, role } = req.body;
+    const user = new User({ email, userName, lastName, password, role });
 
-}
+    try {
+        const salt = bcryptjs.genSaltSync();
+        user.password = bcryptjs.hashSync(password, salt);
 
+        await user.save();
 
-export const postUsers = async (req, res) =>{
+        res.status(201).json({
+            user
+        });
+    } catch (error) {
+        console.error('Error creating user:', error);
+        res.status(500).json({
+            error: 'Internal server error'
+        });
+    }
+};
 
-    const {email, userName, lastName, password, role} = req.body;
-    const user = new User({email, userName, lastName, password, role})
-
-    const salt = bcryptjs.getSaltSync();
-    usuario.password = bcryptjs.hashSync(password, salt);
-
-    await user.save()
-
-    res.status(200).json({
-        user
-    })
-
-}
-
+// Obtener usuario por ID
 export const getUserById = async (req, res) => {
-    const {id} = req.params;
-=======
-export const usuariosGet = async (req, res = response) => {
-    const { limite, desde } = req.query;
-    const query = { status: true };
+    const { id } = req.params;
 
-    const [total, usuarios] = await Promise.all([
-        User.countDocuments(query),
-        User.find(query)
-            .skip(Number(desde))
-            .limit(Number(limite))
-    ]);
+    try {
+        const user = await User.findOne({ _id: id });
 
-    res.status(200).json({
-        total,
-        usuarios
-    });
-}
+        res.status(200).json({
+            user
+        });
+    } catch (error) {
+        console.error('Error fetching user by ID:', error);
+        res.status(500).json({
+            error: 'Internal server error'
+        });
+    }
+};
 
-export const getUserById = async (req, res) => {
-    const {id} = req.body;
->>>>>>> develop
-    const user = await User.findOne({_id: id});
-    
-    res.status(200).json({
-        user
-    })
-}
+// Obtener usuario por email
+export const getUserEmail = async (req, res) => {
+    const { _email } = req.params;
 
-<<<<<<< HEAD
+    try {
+        const user = await User.findOne({ email: _email });
+
+        res.status(200).json({
+            role: user.role,
+            idUser: user._id
+        });
+    } catch (error) {
+        console.error('Error fetching user by email:', error);
+        res.status(500).json({
+            error: 'Internal server error'
+        });
+    }
+};
+
+// Actualizar usuario
 export const putUser = async (req, res = response) => {
     const { id } = req.params;
-    const {_id, password, userName, lastName, ...resto} = req.body;
-
-    if(password) {
-=======
-export const getUserEmail = async (req, res) => {
-    const {_email} = req.params;
-    const user = await User.findOne({email: _email});
-    
-    res.status(200).json({
-        role: user.role,
-        idUser: user._id
-    })
-}
-
-
-
-export const userPut = async (req, res = response) => {
-    console.log('Datos recibidos:', req.body);
-    const { id } = req.body;
-    const { _id, password, role, status, ...resto } = req.body;
+    const { password, ...resto } = req.body;
 
     if (password) {
->>>>>>> develop
         const salt = bcryptjs.genSaltSync();
         resto.password = bcryptjs.hashSync(password, salt);
     }
 
-<<<<<<< HEAD
-    await User.findByIdAndUpdate(id, resto);
+    try {
+        const updatedUser = await User.findByIdAndUpdate(id, resto, { new: true });
 
-    const user = await User.findOne({_id: id});
+        res.status(200).json({
+            msg: 'Updated user!!',
+            user: updatedUser
+        });
+    } catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).json({
+            error: 'Internal server error'
+        });
+    }
+};
 
-    res.status(200).json({
-        msg: 'Updated user!!',
-        user
-    });
-}
-
-
+// Eliminar usuario (cambiar estado a false)
 export const deleteUser = async (req, res) => {
-    const {id} = req.params;
-
-    const user = await User.findByIdAndUpdate(id, { estado: false});
-    const authenticatedUser = req.user;
-
-    res.status(200).json({msg:'User to delete:', user, authenticatedUser });
-=======
-    const usuarioActualizado = await User.findByIdAndUpdate(id, resto, { new: true });
-
-    res.status(200).json({
-        msg: 'This user was UPDATED:',
-        usuarioActualizado
-    });
-
-}
-
-export const userDelete = async (req, res) => {
     const { id } = req.params;
-    const usuario = await User.findByIdAndUpdate(id, { status: false });
 
-    res.status(200).json({
-        msg: 'This user was DELETED:',
-        usuario,
-    });
->>>>>>> develop
-}
+    try {
+        const user = await User.findByIdAndUpdate(id, { estado: false });
+        const authenticatedUser = req.user;
+
+        res.status(200).json({
+            msg: 'User successfully removed',
+            user,
+            authenticatedUser
+        });
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        res.status(500).json({
+            error: 'Internal server error'
+        });
+    }
+};

@@ -2,9 +2,9 @@ import { response, request } from "express"
 import Room from "./room.model.js"
 
 export const roomPost = async (req, res) => {
-    const { type, capacity, price, availableDate, idHotel, idUser } = req.body;
+    const { type, capacity, price, availableDate, idHotel } = req.body;
 
-    const room = new Room({ type, capacity, price, availableDate, idHotel, idUser });
+    const room = new Room({ type, capacity, price, availableDate, idHotel });
 
     await room.save();
 
@@ -15,7 +15,27 @@ export const roomPost = async (req, res) => {
 
 export const roomsGet = async (req, res) => {
     const { limite, desde } = req.query;
-    const query = { state: true };
+    const query = { state: true};
+
+    const [total, rooms] = await Promise.all([
+        Room.countDocuments(query),
+        Room.find(query)
+            .select('-state')
+            .skip(Number(desde))
+            .limit(Number(limite))
+    ]);
+
+    res.status(200).json({
+        total,
+        rooms
+    });
+}
+
+
+export const roomsGetOnlyHotel = async (req, res) => {
+    const { limite, desde } = req.query;
+    const { idHotel } = req.params;
+    const query = { state: true, idHotel: idHotel };
 
     const [total, rooms] = await Promise.all([
         Room.countDocuments(query),
