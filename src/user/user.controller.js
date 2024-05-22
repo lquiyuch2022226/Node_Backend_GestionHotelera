@@ -69,10 +69,14 @@ export const getUserById = async (req, res) => {
 
 // Obtener usuario por email
 export const getUserEmail = async (req, res) => {
-    const { _email } = req.params;
+    const { correo } = req.params; 
 
     try {
-        const user = await User.findOne({ email: _email });
+        const user = await User.findOne({ email: correo }); 
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
 
         res.status(200).json({
             role: user.role,

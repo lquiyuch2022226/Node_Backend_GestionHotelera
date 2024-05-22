@@ -66,3 +66,5 @@ export const login = async (req, res) => {
     res.status(500).send("Comuniquese con el administrador " + e );
   }
 };
+
+

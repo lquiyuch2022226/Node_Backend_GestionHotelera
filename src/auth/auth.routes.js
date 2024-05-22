@@ -6,6 +6,7 @@ import { existingEmail } from "../helpers/db-validator.js";
 
 const router = Router()
 
+
 router.post('/login', 
     [
         check('email','El email es obligatorio').not().isEmpty(),
